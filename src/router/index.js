@@ -10,6 +10,16 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/backTopOne',
+    name: 'backTopOne',
+    component: () => import('../views/BackTopOne')
+  },
+  {
+    path: '/backTopTwo',
+    name: 'backTopTwo',
+    component: () => import('../views/BackTopTwo')
+  }
 ]
 
 const router = new VueRouter({
