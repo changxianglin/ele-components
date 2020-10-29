@@ -19,6 +19,11 @@ const routes = [
     path: '/backTopTwo',
     name: 'backTopTwo',
     component: () => import('../views/BackTopTwo')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login')
   }
 ]
 
