@@ -9,6 +9,10 @@
       @errHandle="errHandle">
       </account-login>
     </div>
+    <h1>短信验证码登录</h1>
+    <div class="phone">
+      <phone-login :rule-form="phoneForm"></phone-login>
+    </div>
   </div>
 </template>
 
@@ -48,6 +52,10 @@ export default {
             trigger: 'blur',
           }
         ]
+      },
+      phoneForm: {
+        phone: '',
+        code: '',
       }
     }
   },
@@ -67,7 +75,7 @@ export default {
     margin-top: 30px;
     margin-left: 30px;
   }
-  .account {
+  .account, .phone {
     width: 500px;
   }
 </style>
