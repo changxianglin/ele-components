@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="ruleForm" :rules="rules">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
       <el-form-item prop="phone">
         <el-input placeholder="请输入手机号" v-model="ruleForm.phone">
           <i slot="prefix" class="el-icon-phone"></i>
@@ -14,12 +14,12 @@
             </el-input>
           </el-col>
           <el-col :span="6">
-            <el-button>发送验证码</el-button>
+            <el-button @click="sendCode" :disabled="disabled">{{btnText}}</el-button>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width: 100%">登录</el-button>
+        <el-button type="primary" style="width: 100%" @click="phoneLogin">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -59,8 +59,45 @@ export default {
         code :[
           {required: true, message: '验证码不能为空', trigger: 'blur'}
         ]
-      }
+      },
+      disabled: false,
+      btnText: '发送验证码',
+      time: 0,
     }
+  },
+  methods: {
+    sendCode() {
+      this.$refs.ruleForm.validateField('phone', errorMessage => {
+        if (errorMessage) {
+          this.$message.error(errorMessage)
+        } else {
+          let timer = setInterval(() => {
+            this.time--
+            this.btnText = `${this.time}s后重新发送`
+            this.disabled = true
+            if (this.time === 0) {
+              this.disabled = false
+              this.btnText = '重新发送'
+              this.time = this.countDown
+              clearInterval(timer)
+            }
+          }, 1000)
+          this.$emit('send')
+        }
+      })
+    },
+    phoneLogin() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.$emit('submit')
+        } else {
+          this.$emit('errHandle')
+        }
+      })
+    }
+  },
+  mounted() {
+    this.time = this.countDown
   }
 }
 </script>

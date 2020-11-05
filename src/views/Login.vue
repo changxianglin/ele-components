@@ -11,7 +11,13 @@
     </div>
     <h1>短信验证码登录</h1>
     <div class="phone">
-      <phone-login :rule-form="phoneForm"></phone-login>
+      <phone-login 
+        :rule-form="phoneForm" 
+        @send="send"
+        :countDown = '30'
+        @submit="submit"
+        @errHandle="errHandle">
+        </phone-login>
     </div>
   </div>
 </template>
@@ -65,6 +71,9 @@ export default {
     },
     errHandle() {
       this.$message.error('表单填写有误,请检查')
+    },
+    send() {
+      this.$message.info('发送验证码成功')
     }
   }
 }
